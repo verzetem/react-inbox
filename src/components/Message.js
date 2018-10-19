@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 
 
 const Message = ({ messageData }) => {
-		
-	// console.log("msg data",messageData)
 
   return (
 
     <div>
-
+			
 			{ messageData.map((message) => 
-					<div className="row message read mr">
+					<div className="row message unread mr">
 			  <div className="col-xs-1">
 			    <div className="row">
 			      <div className="col-xs-2">

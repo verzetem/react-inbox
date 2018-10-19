@@ -6,13 +6,12 @@ class MessageList extends Component {
 
 	state = {
 			messageData: [],
-			isToggled: true
 		}
 
 	componentDidMount() {
 
 		fetch('http://localhost:8082/api/messages')
-		.then(req => req.json())
+		.then(res => res.json())
 		.then(data => {
 			// console.log(data)
 			this.setState({ messageData: data })
@@ -20,13 +19,6 @@ class MessageList extends Component {
 		})
 }
 
-		handleClick() {
-		this.setState(function(prevState) {
-			return {
-				isToggled: !prevState.isToggled
-			};
-		});
-	}
 
   render() {
 
@@ -34,7 +26,6 @@ class MessageList extends Component {
 
       <div>
      		<Message messageData={this.state.messageData} />
-     		<button onClick={this.handleClick} className="btn btn-default"> {this.state.isToggleOn ? 'ON' : 'OFF'} </button>
      		
  				
       </div>
