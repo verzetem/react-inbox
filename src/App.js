@@ -11,7 +11,7 @@ class App extends Component {
 
     return (
 
-      <div className="col-md-12">
+      <div className="col-md-12 mr">
           
             
             <ToolBar />

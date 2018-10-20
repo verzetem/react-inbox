@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 
 const Message = ({ messageData }) => {
@@ -8,7 +8,7 @@ const Message = ({ messageData }) => {
     <div>
 			
 			{ messageData.map((message) => 
-					<div className="row message unread mr">
+					<div className="row message unread">
 			  <div className="col-xs-1">
 			    <div className="row">
 			      <div className="col-xs-2">
