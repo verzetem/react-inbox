@@ -25,7 +25,7 @@ class MessageList extends Component {
     return (
 
       <div>
-     		<Message messageData={this.state.messageData} />
+     		<Message messageData={this.state.messageData} read={this.state.read} unread={this.state.unread} />
      		
  				
       </div>

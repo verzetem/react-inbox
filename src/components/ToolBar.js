@@ -12,7 +12,7 @@ const ToolBar = () => {
 			<div className="row toolbar">
   <div className="col-md-12">
     <p className="pull-right">
-      <span className="badge badge">2</span>
+      <span className="badge btn-info">2</span>
       unread messages
     </p>
 
