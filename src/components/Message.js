@@ -7,14 +7,25 @@ class Message extends Component {
 		// (e.target.attributes.isRead.value !== "true") ? e.target.classList. : console.log("true, do nothing")
 		// (message.read !== true) ? e.target.classList
  }
- startToggle(e) {
- 	console.log("star toggle", e)
+ starToggle(e) {
+ 	// (e.target.attributes.isread !== "true" ? e`.target.classList.remove("fa-star-o") && e.target.classList.add("fa-star") : e.target.classList.remove("fa-star") && e.target.classList.add( "fa-star-o"))
+ 	// console.log("star toggle", e.target.classList)
+ 	// "star fa fa-star-o"
+ 	// "star fa fa-star"
+	
+ }
+
+ strd(e) {
+ 	
  }
 
 render() {
   return (
 
     <div>
+
+	
+
 
 			{ console.log("messageData", this.props.messageData) }
 			{ this.props.messageData.map((message) => 
@@ -26,7 +37,7 @@ render() {
 					        <input type="checkbox" />
 					      </div>
 					      <div className="col-xs-2">
-					        <i onClick={this.startToggle} className="star fa fa-star-o"></i>
+					        <i className={(message.starred !== true) ? "star fa fa-star-o" : "star fa fa-star" }></i>
 					      </div>
 					    </div>
 					  </div>
@@ -53,8 +64,7 @@ render() {
 					      <p onClick={this.handleClick} id={message.id} labels={message.labels} starred={message.starred.toString()} isread={message.read.toString()}>{message.subject}</p>
 					    </a>
 					  </div>
-					</div>,
-					
+					</div>
 	      )}
 				
     </div>
