@@ -1,39 +1,36 @@
-import React, { Component } from 'react';
-import Message from './Message';
+import React from 'react'
+import Message from './Message'
 
 
-class MessageList extends Component {
-
-	state = {
-			messageData: [],
-		}
-
-	componentDidMount() {
-
-		fetch('http://localhost:8082/api/messages')
-		.then(res => res.json())
-		.then(data => {
-			// console.log(data)
-			this.setState({ messageData: data })
-			// console.log("inside fetch", this.state.messageData)
-		})
-}
+const MessageList = ({ messageData, starToggle, msgReadToggle, checkedToggle }) => {
+	
+	const msgComponents = messageData.map(message => {
+  	return <Message 
+		     		msgReadToggle={msgReadToggle}
+		     		key={message.id}
+		     		id={message.id}
+		     		selected={message.selected}
+		     		read={message.read}
+		     		starred={message.starred}
+		     		subject={message.subject}
+		     		checkedToggle={checkedToggle}
+		     		starToggle={starToggle} />
+})
 
 
-  render() {
 
+		
     return (
 
       <div>
 
-      
-     		<Message messageData={this.state.messageData} read={this.state.read} unread={this.state.unread} />
+      { msgComponents }
      		
  				
       </div>
 
     );
-  }
+  
 }
 
-export default MessageList;
+export default MessageList

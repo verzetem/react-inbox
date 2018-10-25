@@ -30,11 +30,6 @@ return (
 </form>
 
 
-
-
-	
-
-
 	)}
 
-export default NewMessage;
+export default NewMessage

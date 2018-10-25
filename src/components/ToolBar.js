@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ToolBar = () => {
+const ToolBar = ({ unreadCounter }) => {
 
 	return (
 
@@ -12,7 +12,7 @@ const ToolBar = () => {
 			<div className="row toolbar">
   <div className="col-md-12">
     <p className="pull-right">
-      <span className="badge btn-info">2</span>
+      <span className="badge btn-info">{unreadCounter}</span>
       unread messages
     </p>
 
@@ -56,4 +56,4 @@ const ToolBar = () => {
 
   )
 }
-export default ToolBar;
+export default ToolBar
