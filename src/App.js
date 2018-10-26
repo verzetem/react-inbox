@@ -5,48 +5,92 @@ import './App.css'
 
 
 class App extends Component {
+// deployed heroku app UPDATE FIRST BEFORE USING:
+// https://whispering-wildwood-25412.herokuapp.com/api/messages
 
+state = {
+		messageData: [],
 
-	state = {
-			messageData: [],
-			unreadCount: "",
-		}
+	}
 
-	componentDidMount() {
-
-		fetch("https://whispering-wildwood-25412.herokuapp.com/api/messages")
-		.then(res => res.json())
-		.then(data => {
-			// console.log(data)
-			this.setState({ messageData: data })
-			console.log("inside fetch", this.state)
-		})
+componentDidMount() {
+	fetch("http://localhost:8082/api/messages")
+	.then(res => res.json())
+	.then(data => {
+		// console.log(data)
+		this.setState({ messageData: data })
+		console.log("inside fetch", this.state)
+	})
 }
 
-unreadCounter = (messages) => {
-	const counter = messages.filter(message => {
+unreadCounter = () => {
+	const msgData = this.state.messageData
+	const counter = msgData.filter(message => {
 		return !message.read
 	}).length
 	return counter
 }
 
-onSubmit(e){
-	e.preventDefault()
-	console.log(this.props.messageData)
-}
-
-	msgReadToggle = (e, id) => {
-		// console.log("msg read toggle", id)
-		let messages = this.state.messageData
-		let newMessages = messages.map((message) => {
-			if (message.id === id) message.read = !message.read 
-			return message
+setMsgRead = (id) => {
+	fetch("http://localhost:8082/api/messages", {
+	  headers: {
+	    'Content-Type': 'application/json'
+	  },
+	  method: 'PATCH',                                                              
+	  body: JSON.stringify({ 
+	  	"messageIds": [id],
+	  	"command": "read",
+	  	"read": true
+	  })                                        
 	})
-		this.setState({messageData: newMessages})
+		.then(res => res.json())
+		.then(newMessages => {
+			this.setState({
+				messageData: newMessages
+			})
+		})
  } 
+  
+starToggle = (messageId) => {
+	fetch("http://localhost:8082/api/messages", {
+		method: "PATCH",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			"messageIds": [messageId],
+			"command": "star"
+		})
+	})
+		.then(res => res.json())
+		.then(newMessages => {
+			this.setState({
+				messageData: newMessages
+			})
+		})
+ }
 
- 	starToggle = (e) => {
-		console.log("star toggle")
+ checkedToggle = (messageId, e) => {
+	fetch("http://localhost:8082/api/messages", {
+		method: "PATCH",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			"messageIds": [messageId],
+			"command": "selected"
+		})
+	})
+		.then(res => res.json())
+		.then(newMessages => {
+			this.setState({
+				messageData: newMessages
+			})
+		})
+ }
+
+ toolbarEnable = () => {
+ 	console.log("toolbar enabled")
  }
 
 
@@ -63,11 +107,10 @@ onSubmit(e){
             <MessageList 
             messageData={this.state.messageData} 
             starToggle={this.starToggle} 
-            msgReadToggle={this.msgReadToggle}
-            checkedToggle={this.checkedToggle} />
+            setMsgRead={this.setMsgRead}
+            checkedToggle={this.checkedToggle}
+            toolbarEnable={this.toolbarEnable} />
 
-
- 
       </div>
 
     );
