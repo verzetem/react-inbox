@@ -1,6 +1,9 @@
 import React from 'react';
 
-const ToolBar = ({ unreadCounter }) => {
+const ToolBar = ({ unreadCounter, toolbarEnable }) => {
+
+  // const enabled = toobarEnable ? 
+  // const isSelected = selected ? " selected" : ""
 
 	return (
 

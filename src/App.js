@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import ToolBar from './components/ToolBar'
+import ToolBarNS from './components/ToolBarNS'
+import ToolBarS from './components/ToolBarS'
 import MessageList from './components/MessageList'
 import './App.css'
 
@@ -10,16 +11,21 @@ class App extends Component {
 
 state = {
 		messageData: [],
-
+		checkedNum: 0,
+		tbEnabled: null
 	}
 
 componentDidMount() {
 	fetch("http://localhost:8082/api/messages")
 	.then(res => res.json())
 	.then(data => {
-		// console.log(data)
-		this.setState({ messageData: data })
-		console.log("inside fetch", this.state)
+		this.setState({ messageData: data });
+		data.map(data  => {
+			console.log("inside mounted, data", data.selected);
+
+			(data.selected !== false) ? this.setState({ checkedNum: this.state.checkedNum+1 }) : this.setState({ checkedNum: 0 });
+		})
+		console.log("inside fetch", this.state);
 	})
 }
 
@@ -70,50 +76,81 @@ starToggle = (messageId) => {
 		})
  }
 
- checkedToggle = (messageId, e) => {
-	fetch("http://localhost:8082/api/messages", {
-		method: "PATCH",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify({
-			"messageIds": [messageId],
-			"command": "selected"
+checkedToggle = (messageId, e) => {
+// function save(){
+//     var checkbox = document.getElementById('checkbox1zaal1');
+//     localStorage.setItem('checkbox1zaal1', checkbox.checked);
+// }
+
+// function load(){    
+//     var checked = JSON.parse(localStorage.getItem('checkbox1zaal1'));
+//     document.getElementById("checkbox1zaal1").checked = checked;
+// }
+
+// function wis(){
+//     location.reload();
+//     localStorage.clear()
+// } 
+// let checkbox = e.target
+// (checkbox.checked == false) ? localStorage.setItem('checkbox', checkbox.checked) : localStorage.clear();
+console.log("checkedToggle", e.persist(), e.target.checked);
+fetch("http://localhost:8082/api/messages", {
+	method: "PATCH",
+	headers: {
+		"Content-Type": "application/json"
+	},
+	body: JSON.stringify({
+		"messageIds": [messageId],
+		"command": "selected"
+	})
+})
+	.then(res => res.json())
+	.then(newMessages => {
+		this.setState({
+			messageData: newMessages
 		})
 	})
-		.then(res => res.json())
-		.then(newMessages => {
-			this.setState({
-				messageData: newMessages
-			})
-		})
- }
+	 this.isChecked(e);
+}
 
- toolbarEnable = () => {
- 	console.log("toolbar enabled")
- }
-
-
+isChecked = (e) => {
+	let checkedNum = this.state.checkedNum
+	const msgData = this.state.messageData
+	for (let i = 0; 0 < msgData.length; i++) {
+		if (e.target.checked === true) {
+			return this.setState({ checkedNum: checkedNum+1 })
+		} else {
+			return this.setState({ checkedNum: checkedNum-1 })
+		}
+	}
+}
 
   render() {
-
-    return (
-
-      <div className="col-md-12 mr">
-          
-            
-            <ToolBar unreadCounter={this.unreadCounter} />
-            {/*<NewMessage />*/}
-            <MessageList 
-            messageData={this.state.messageData} 
-            starToggle={this.starToggle} 
-            setMsgRead={this.setMsgRead}
-            checkedToggle={this.checkedToggle}
-            toolbarEnable={this.toolbarEnable} />
-
-      </div>
-
-    );
+  	if (this.state.checkedNum === 0) {
+  		return (
+  			<div className="col-md-12 mr">
+					<ToolBarNS unreadCounter={this.unreadCounter} />
+					<MessageList 
+	          messageData={this.state.messageData} 
+	          starToggle={this.starToggle} 
+	          setMsgRead={this.setMsgRead}
+	          checkedToggle={this.checkedToggle} />
+	          <h3>{this.state.checkedNum}</h3>
+        </div>
+  			)
+  	} else {
+  		return (
+				<div className="col-md-12 mr">
+					<ToolBarS unreadCounter={this.unreadCounter} toolbarEnable={this.toolbarEnable} />
+					<MessageList 
+	          messageData={this.state.messageData} 
+	          starToggle={this.starToggle} 
+	          setMsgRead={this.setMsgRead}
+	          checkedToggle={this.checkedToggle} />
+	          <h3>{this.state.checkedNum}</h3>
+        </div>
+  			)
+  	}
   }
 }
 

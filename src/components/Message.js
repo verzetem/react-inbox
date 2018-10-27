@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Message = ({ setMsgRead, key, id, selected, read, starred, subject, checkedToggle, starToggle, messageData, toolbarEnable }) => {
+const Message = ({ setMsgRead, key, id, selected, read, starred, subject, checkedToggle, starToggle, messageData }) => {
 	const isRead = read ? "row message read" : "row message unread"
 	const isStarred = starred ? "star fa fa-star" : "star fa fa-star-o"
 	const isSelected = selected ? " selected" : ""
