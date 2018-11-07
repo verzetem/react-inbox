@@ -5,7 +5,9 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "bootstrap3": "^3.3.5",
+    "flatted": "^2.0.0",
     "font-awesome": "^4.7.0",
+    "prettier": "^1.15.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.5"
